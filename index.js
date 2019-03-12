@@ -42,8 +42,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/vtt', upload.single('blob'), async (req, res) => {
-    console.log('receive new blob')
     const [status, msg] = await voice2text(req.file.path)
+    console.log(msg)
     if (status) {
         res.json(msg)
     } else {

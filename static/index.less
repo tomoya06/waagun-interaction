@@ -133,6 +133,7 @@ main {
     background-size: 100% 100%;
     &.main-standby {
         background-image: url(./src/0-standby.gif);
+        cursor: pointer;
     }
     &.main-launching {
         background-image: url(./src/1-recordin.gif);
@@ -142,6 +143,7 @@ main {
     }
     &.main-launch-fail {
         background-image: url(./src/1-cracked.gif);
+        cursor: pointer;
     }
     &.main-working {
         display: flex;
@@ -185,6 +187,47 @@ main {
 
                 
             }
+        }
+    }
+}
+
+@dialogButtonSize: 16px;
+@dialogFontSize: 24px;
+
+.dialog {
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vh;
+    font-family: 'Pixel';
+    font-size: @dialogFontSize;
+    border: 1px solid #fff;
+    background: #000;
+    padding: 0 (@dialogFontSize);
+
+    .dialog-title, .dialog-content {
+        display: flex;
+        justify-content: space-between;
+        margin: (@dialogFontSize) 0;
+
+        * {
+            display: block;
+        }
+
+        input[type='text'] {
+            font-family: 'Pixel';
+            font-size: @dialogFontSize;
+            height: @dialogFontSize;
+            min-width: 30vh;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 0 (@dialogFontSize / 4);
         }
     }
 }

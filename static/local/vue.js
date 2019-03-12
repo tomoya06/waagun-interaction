@@ -17,21 +17,51 @@ const steps = {
 const audio = document.getElementById('appAudio')
 const audioSource = audio.getElementsByTagName('source')[0]
 
+
+Vue.component('text-flow', {
+    props: {
+        texts: Array,
+        maxCounter: Number,
+        textClass: String,
+    },
+    data: {
+        counter: -1,
+        intervalNum: -1,
+    },
+    created: function() {
+        const self = this
+        this.intervalNum = setInterval(() => {
+            self.counter++
+            if (self.counter >= self.maxCounter) {
+                clearInterval(self.intervalNum)
+                self.$emit('finish')
+            }
+        }, 1000);
+    },
+    template: `
+        <ul>
+            <li v-for="(text. index) in texts" v-bind:class="textClass" v-if="counter >= index">{{text}}</li>
+        </ul>
+    `
+})
+
+
 const app = new Vue({
     el: '#app',
     data: {
-        status: state.standby,
+        status: state.working,
         lights: [false, true],
         // Main app
         sectionStorage: {
             where: '',
-            selection: 0,
+            selection: -1,
             bonus: ''
         },
-        step: steps.none,
+        step: steps.where,
         // Where can i choose to go page
-        wcindex: -1,
+        wcindex: 5,
         wcInterval: 0,
+        whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
         // choose page
         chooseSelections: [{
             title: '利己',
@@ -50,7 +80,6 @@ const app = new Vue({
             content: '',
             voiceUrl: ''
         }],
-        chosenSelectionIndex: -1,
         // bonus page
         bonus: [{
             text: '',
@@ -89,7 +118,7 @@ const app = new Vue({
             }, 1000);
         },
         makeChoice: function(chooseIndex) {
-            this.chosenSelectionIndex = chooseIndex
+            this.sectionStorage.selection = chooseIndex
             this.step = steps.display
         },
         nextStep: function(stepVal) {
@@ -115,7 +144,7 @@ const app = new Vue({
     },
     watch: {
         status: function(newStatus, oldStatus) {
-            if (newStatus == state.launching && oldStatus == state.standby) {
+            if (newStatus == state.launching) {
                 // TODO: launch voice recognition
                 console.log('recording..')
                 startRecord()
@@ -134,7 +163,7 @@ const app = new Vue({
             switch (newStep) {
                 case steps.where: app.wcCounting(); break;
                 case steps.choose: break;
-                case steps.display: this.playAudio(this.chooseSelections[this.chosenSelectionIndex].voiceUrl); break;
+                case steps.display: this.playAudio(this.chooseSelections[this.sectionStorage.selection].voiceUrl); break;
             }
         }
     },

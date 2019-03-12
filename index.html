@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DEMO</title>
-    <script src="./static/bluebird.min.js"></script>
     <script src="./static/recorder.wav.min.js"></script>
     <script src="./static/vue.min.js"></script>
     <link rel="stylesheet" href="./static/index.css">
@@ -31,15 +30,19 @@
             </aside>
             <div id="stack" class="stack-container">
                 <section class="stack-text-container" v-if="step == steps.where">
-                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 0">W H E R E</div>
+                    <text-flow v-bind:texts="whereTexts" v-bind:maxCounter="5" textClass="text-justify font-codeb font16 h25" v-on:finish="wcindex = 5"></text-flow>
+                    <!-- <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 0">W H E R E</div>
                     <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 1">CAN I</div>
                     <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 2">C H O O S E</div>
-                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 3">TO GO</div>
+                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 3">TO GO</div> -->
                     <div class="dialog" v-if="wcindex >= 5">
-                        <div class="dialog-title"></div>
+                        <div class="dialog-title">
+                            <span>請輸入閣下的答案：</span>
+                            <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
+                        </div>
                         <div class="dialog-content">
-                            <input type="text" name="wcAnswer" id="wxAnswer">
-                            <button class="dialog-button" v-on:click="nextStep(steps.choose)"></button>
+                            <input type="text" name="wcAnswer" id="wxAnswer" v-model="sectionStorage.where">
+                            <button class="dialog-button" v-on:click="nextStep(steps.choose)">確認</button>
                         </div>
                     </div>
                 </section>
@@ -52,9 +55,8 @@
                     </ul>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.display" v-on:click="pauseAudio()">
-                    <div class="font-codeb">{{chooseSelections[chosenSelectionIndex].title}}</div>
-                    <div class="font-codeb">{{chooseSelections[chosenSelectionIndex].content}}</div>
-                                      
+                    <div class="font-codeb">{{chooseSelections[sectionStorage.selection].title}}</div>
+                    <div class="font-codeb">{{chooseSelections[sectionStorage.selection].content}}</div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.bonus">
                     <div class="font-codeb"></div>
