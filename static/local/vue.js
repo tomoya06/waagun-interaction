@@ -11,7 +11,8 @@ const steps = {
     none: 0,
     where: 1,
     choose: 2,
-    display: 3
+    display: 3,
+    bonus: 4
 }
 
 const audio = document.getElementById('appAudio')
@@ -23,24 +24,30 @@ Vue.component('text-flow', {
         texts: Array,
         maxCounter: Number,
         textClass: String,
+        delay: Number
     },
-    data: {
-        counter: -1,
-        intervalNum: -1,
+    data: function() {
+        return {
+            counter: -1,
+            intervalNum: -1,
+        }
+    },
+    methods: {
+        counterAdder: function() {
+            this.counter++
+            if (this.counter >= this.maxCounter) {
+                clearInterval(this.intervalNum)
+                this.$emit('finish')
+            }
+        }
     },
     created: function() {
-        const self = this
-        this.intervalNum = setInterval(() => {
-            self.counter++
-            if (self.counter >= self.maxCounter) {
-                clearInterval(self.intervalNum)
-                self.$emit('finish')
-            }
-        }, 1000);
+        if (!this.maxCounter) this.maxCounter = this.texts.length
+        this.intervalNum = setInterval(this.counterAdder, this.delay)
     },
     template: `
         <ul>
-            <li v-for="(text. index) in texts" v-bind:class="textClass" v-if="counter >= index">{{text}}</li>
+            <li v-for="(text, index) in texts" v-bind:class="textClass" v-if="counter >= index">{{text}}</li>
         </ul>
     `
 })
@@ -49,23 +56,22 @@ Vue.component('text-flow', {
 const app = new Vue({
     el: '#app',
     data: {
-        status: state.working,
+        status: state.standby,
         lights: [false, true],
         // Main app
         sectionStorage: {
             where: '',
             selection: -1,
-            bonus: ''
+            bonus: -1
         },
-        step: steps.where,
+        step: steps.none,
         // Where can i choose to go page
-        wcindex: 5,
-        wcInterval: 0,
+        wcindex: 0,
         whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
         // choose page
         chooseSelections: [{
             title: '利己',
-            content: '啥的哈克大家都哈韩的卡暗杀上课的哈健康的哈韩的卡大师的看哈的卡号ask等哈数据库的哈克的阿斯顿库哈斯的卡号看安康等哈就快点哈大大阿卡莎健康的哈克觉得啊是多久啊滑动卡顿啊啊的空间啥的',
+            content: ['11111111111111', '22222222222222222', '3333333333333333'],
             voiceUrl: './static/src/audio/TimePuzzle.mp3',
         }, {
             title: '白日夢',
@@ -81,14 +87,10 @@ const app = new Vue({
             voiceUrl: ''
         }],
         // bonus page
-        bonus: [{
-            text: '',
-            by: '',
-        }, {
-            text: '',
-            by: '',
-        }],
-        chosenBonusIndex: -1,
+        bonus: [
+            [], 
+            []
+        ],
     },
     methods: {
         updateStatusTo: function(newStatus) {
@@ -111,7 +113,7 @@ const app = new Vue({
         },
         wcCounting: function() {
             this.wcInterval = setInterval(function() {
-                app.wcindex += 1
+                app.wcindex++
                 if (app.wcindex == 10) {
                     clearInterval(app.wcInterval)
                 }
@@ -144,15 +146,20 @@ const app = new Vue({
     },
     watch: {
         status: function(newStatus, oldStatus) {
-            if (newStatus == state.launching) {
-                // TODO: launch voice recognition
-                console.log('recording..')
-                startRecord()
-            } else if (newStatus == state.standby) {
-                console.log('stand by...')
-            } else if (newStatus == state.working) {
-                console.log('Working...')
-                this.chosenBonusIndex = Math.floor(Math.random() * this.bonus.length)
+            switch (newStatus) {
+                case state.launching:
+                    console.log('recording..')
+                    startRecord()
+                    break
+                case state.standby:
+                    console.log('stand by...')
+                    break
+                case state.working:
+                    console.log('Working...')
+                    this.sectionStorage.where = ''
+                    this.sectionStorage.choose = -1
+                    this.sectionStorage.bonus = Math.floor(Math.random() * this.bonus.length)
+                    this.nextStep(steps.where)
             }
         },
         step: function(newStep, oldStep) {

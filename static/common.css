@@ -1,0 +1,107 @@
+.button-next {
+  position: fixed;
+  right: 25vh;
+  bottom: 6vh;
+  background-image: url(src/NEXTBUTTON.png);
+  background-size: cover;
+  background-position: center center;
+  width: 20vh;
+  height: 11.25vh;
+  cursor: pointer;
+}
+.text-justify {
+  text-align: justify;
+  -webkit-text-align-last: justify;
+}
+.text-justify::after {
+  content: ".";
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  height: 0;
+}
+aside {
+  width: 16.7vh;
+  height: 100vh;
+  position: relative;
+  background-size: cover;
+  background-position: right center;
+}
+aside.aside-right {
+  transform: rotate(180deg);
+}
+aside.aside-test {
+  background-image: url(src/side-test.gif);
+}
+aside.aside-choose {
+  background-image: url(src/side-choose.gif);
+}
+aside .footer-container {
+  position: absolute;
+  bottom: 20px;
+  margin: 0 1vh;
+  left: 0;
+  right: 0;
+  height: 8vh;
+  background-image: url(src/corner.gif);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+aside .lights-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+aside .lights-container .light-bulb {
+  display: block;
+  margin: 0 1vh;
+  width: 4vh;
+  height: 4vh;
+  border-radius: 2vh;
+  border: 1px solid #fff;
+  background-color: #000;
+}
+aside .lights-container .light-bulb.active {
+  background-color: #fff;
+}
+.dialog {
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vh;
+  font-family: 'Pixel';
+  font-size: 24px;
+  border: 1px solid #fff;
+  background: #000;
+  padding: 0 24px;
+}
+.dialog .dialog-title,
+.dialog .dialog-content {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+.dialog .dialog-title *,
+.dialog .dialog-content * {
+  display: block;
+}
+.dialog .dialog-title input[type='text'],
+.dialog .dialog-content input[type='text'] {
+  font-family: 'Pixel';
+  font-size: 24px;
+  height: 24px;
+  min-width: 30vh;
+}
+.dialog .dialog-title button,
+.dialog .dialog-content button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0 6px;
+}

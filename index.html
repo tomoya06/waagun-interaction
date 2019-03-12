@@ -9,6 +9,7 @@
     <script src="./static/recorder.wav.min.js"></script>
     <script src="./static/vue.min.js"></script>
     <link rel="stylesheet" href="./static/index.css">
+    <link rel="stylesheet" href="./static/common.css">
 </head>
 
 <body>
@@ -19,10 +20,13 @@
         </main>
         <main v-else-if="status == state.analysing" class="main-analysing">
         </main>
-        <main v-else-if="status == state.launchFail" class="main-launch-fail" v-on:click="updateStatusTo(state.launching)">
+        <main v-else-if="status == state.launchFail" class="main-launch-fail"
+            v-on:click="updateStatusTo(state.launching)">
         </main>
-        <main v-else-if="status == state.working" class="main-working">
-            <aside class="aside-right">
+        <main v-else-if="status == state.working" class="main-working"
+            v-bind:class="{'main-audio': step == steps.display}">
+            <aside class="aside-right"
+                v-bind:class="{'aside-test': step == steps.where, 'aside-choose': step == steps.choose}">
                 <div class="lights-container">
                     <div class="light-bulb" v-bind:class="{active: lights[0]}"></div>
                     <div class="light-bulb" v-bind:class="{active: lights[1]}"></div>
@@ -30,43 +34,48 @@
             </aside>
             <div id="stack" class="stack-container">
                 <section class="stack-text-container" v-if="step == steps.where">
-                    <text-flow v-bind:texts="whereTexts" v-bind:maxCounter="5" textClass="text-justify font-codeb font16 h25" v-on:finish="wcindex = 5"></text-flow>
-                    <!-- <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 0">W H E R E</div>
-                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 1">CAN I</div>
-                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 2">C H O O S E</div>
-                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 3">TO GO</div> -->
+                    <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5"
+                        text-class="text-justify font-codeb font16 h25" v-on:finish="wcindex = 5" v-bind:delay="500">
+                    </text-flow>
                     <div class="dialog" v-if="wcindex >= 5">
                         <div class="dialog-title">
                             <span>請輸入閣下的答案：</span>
                             <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
                         </div>
                         <div class="dialog-content">
-                            <input type="text" name="wcAnswer" id="wxAnswer" v-model="sectionStorage.where">
+                            <input type="text" name="wcAnswer" id="wxAnswer" v-model="sectionStorage.where" autofocus>
                             <button class="dialog-button" v-on:click="nextStep(steps.choose)">確認</button>
                         </div>
                     </div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.choose">
-                    <div class="font-codeb font4">選擇以下<br>閣下所想之選項</div>
+                    <div class="font-pixel font4">選擇以下<br>閣下所想之選項</div>
                     <ul class="section-selections">
-                        <li class="section-selections-item" v-for='(choice, index) in chooseSelections' v-on:click='makeChoice(index)'>
+                        <li class="section-selections-item font-pixel font4" v-for='(choice, index) in chooseSelections'
+                            v-on:click='makeChoice(index)'>
                             {{choice.title}}
                         </li>
                     </ul>
                 </section>
-                <section class="stack-section-container" v-if="step == steps.display" v-on:click="pauseAudio()">
-                    <div class="font-codeb">{{chooseSelections[sectionStorage.selection].title}}</div>
-                    <div class="font-codeb">{{chooseSelections[sectionStorage.selection].content}}</div>
+                <section class="stack-section-container section-audiobook-container" v-if="step == steps.display"
+                    v-on:click="pauseAudio()">
+                    <!-- <div class="font-pixel">{{chooseSelections[sectionStorage.selection].title}}</div> -->
+                    <text-flow v-bind:texts="chooseSelections[sectionStorage.selection].content"
+                        text-class="font6 font-poem" v-bind:delay="1000"></text-flow>
+                    <div class="button-next" v-on:click="nextStep(steps.bonus)"></div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.bonus">
-                    <div class="font-codeb"></div>
+                    <text-flow v-bind:texts="bonus[sectionStorage.bonus]" text-class="font6 font-poem"
+                        v-bind:delay="1000"></text-flow>
                 </section>
             </div>
-            <aside></aside>
+            <aside v-bind:class="{'aside-test': step == steps.where, 'aside-choose': step == steps.choose}">
+                <div class="footer-container"></div>
+            </aside>
         </main>
         <audio style="display: none" id="appAudio">
             <source src="">
-        </audio>  
+        </audio>
     </div>
 </body>
 
