@@ -27,10 +27,11 @@ async function voice2text(filename) {
     const voiceFile = fs.readFileSync(filename)
     try {
         const result = await xfClient.IAT(voiceFile, IATEngineType.SMS16K_Mandarin, IATAueType.RAW)
-        console.log(result.data.length)
-        console.log(result)
+        // console.log(result)
+        return [true, result]
     } catch (error) {
-        console.log(error)
+        // console.log(error)
+        return [false, error]
     }
 }
 
@@ -42,7 +43,12 @@ app.get('/', (req, res) => {
 
 app.post('/vtt', upload.single('blob'), async (req, res) => {
     console.log('receive new blob')
-    await voice2text(req.file.path)
+    const [status, msg] = await voice2text(req.file.path)
+    if (status) {
+        res.json(msg)
+    } else {
+        res.status(403).send(null)
+    }
 })
 
 app.listen(port, () => {

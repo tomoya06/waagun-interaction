@@ -8,7 +8,7 @@
     function go() {
         count++;
         if (count == outTime * 60) {
-            app.reset2standby()
+            app.updateStatusTo(state.standby)
         }
     }
     var x;
@@ -32,5 +32,5 @@
         app.updateLights(l1, l2)
     }, 200);
 
-    app.voiceSucc()
+    // app.voiceSucc()
 })()

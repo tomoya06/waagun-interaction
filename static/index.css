@@ -118,6 +118,18 @@ body,
 .font10 {
   font-size: 10vh;
 }
+.font8 {
+  font-size: 8vh;
+}
+.font6 {
+  font-size: 6vh;
+}
+.font4 {
+  font-size: 4vh;
+}
+.font2 {
+  font-size: 2vh;
+}
 .h100 {
   height: 100vh;
   line-height: 100vh;
@@ -245,6 +257,12 @@ main.main-standby {
 main.main-launching {
   background-image: url(src/1-recordin.gif);
 }
+main.main-analysing {
+  background-image: url(src/1-identifyin.gif);
+}
+main.main-launch-fail {
+  background-image: url(src/1-cracked.gif);
+}
 main.main-working {
   display: flex;
 }
@@ -271,6 +289,13 @@ main.main-working .stack-container section.stack-text-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+main.main-working .stack-container section.stack-section-container {
+  padding: 6vh 4vh;
+}
+main.main-working .stack-container section.stack-section-container .section-selections .section-selections-item:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .text-justify {
   text-align: justify;

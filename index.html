@@ -18,6 +18,10 @@
         </main>
         <main v-else-if="status == state.launching" class="main-launching">
         </main>
+        <main v-else-if="status == state.analysing" class="main-analysing">
+        </main>
+        <main v-else-if="status == state.launchFail" class="main-launch-fail" v-on:click="updateStatusTo(state.launching)">
+        </main>
         <main v-else-if="status == state.working" class="main-working">
             <aside class="aside-right">
                 <div class="lights-container">
@@ -40,22 +44,27 @@
                     </div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.choose">
-                    <div class="font-codeb font12">請做出您的選擇：</div>
+                    <div class="font-codeb font4">選擇以下<br>閣下所想之選項</div>
                     <ul class="section-selections">
                         <li class="section-selections-item" v-for='(choice, index) in chooseSelections' v-on:click='makeChoice(index)'>
                             {{choice.title}}
                         </li>
                     </ul>
                 </section>
-                <section class="stack-section-container" v-if="step == steps.display">
-                    <div class="font-codeb"></div>
+                <section class="stack-section-container" v-if="step == steps.display" v-on:click="pauseAudio()">
+                    <div class="font-codeb">{{chooseSelections[chosenSelectionIndex].title}}</div>
+                    <div class="font-codeb">{{chooseSelections[chosenSelectionIndex].content}}</div>
+                                      
                 </section>
                 <section class="stack-section-container" v-if="step == steps.bonus">
-                    
+                    <div class="font-codeb"></div>
                 </section>
             </div>
             <aside></aside>
         </main>
+        <audio style="display: none" id="appAudio">
+            <source src="">
+        </audio>  
     </div>
 </body>
 

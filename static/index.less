@@ -52,7 +52,7 @@ body,
 }
 
 @fontIte: 60;
-.fontLoop(@ite) when (@ite >= 10) {
+.fontLoop(@ite) when (@ite >= 2) {
     .font@{ite} {
         font-size: (@ite * 1vh);
     }
@@ -137,6 +137,12 @@ main {
     &.main-launching {
         background-image: url(./src/1-recordin.gif);
     }
+    &.main-analysing {
+        background-image: url(./src/1-identifyin.gif);
+    }
+    &.main-launch-fail {
+        background-image: url(./src/1-cracked.gif);
+    }
     &.main-working {
         display: flex;
         .stack-container {
@@ -162,6 +168,19 @@ main {
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
+                }
+
+                &.stack-section-container {
+                    padding: 6vh 4vh;
+
+                    .section-selections {
+                        .section-selections-item {
+                            &:hover {
+                                cursor: pointer;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
                 }
 
                 
