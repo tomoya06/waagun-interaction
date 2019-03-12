@@ -6,23 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DEMO</title>
+    <script src="./static/bluebird.min.js"></script>
     <script src="./static/recorder.wav.min.js"></script>
     <script src="./static/vue.min.js"></script>
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./static/index.css">
 </head>
 
 <body>
-    <aside class="aside-right"></aside>
-    <main>
-        <div v-if="status == state.standby" class="standby">
-
-        </div>
-    </main>
-    <aside></aside>
+    <div id="app">
+        <main v-if="status == state.standby" class="main-standby" v-on:click="updateStatusTo(state.launching)">
+        </main>
+        <main v-else-if="status == state.launching" class="main-launching">
+        </main>
+        <main v-else-if="status == state.working" class="main-working">
+            <aside class="aside-right">
+                <div class="lights-container">
+                    <div class="light-bulb" v-bind:class="{active: lights[0]}"></div>
+                    <div class="light-bulb" v-bind:class="{active: lights[1]}"></div>
+                </div>
+            </aside>
+            <div id="stack" class="stack-container">
+                <section class="stack-text-container" v-if="step == steps.where">
+                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 0">W H E R E</div>
+                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 1">CAN I</div>
+                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 2">C H O O S E</div>
+                    <div class="text-justify font-codeb font16 h25" v-show="wcindex >= 3">TO GO</div>
+                    <div class="dialog" v-if="wcindex >= 5">
+                        <div class="dialog-title"></div>
+                        <div class="dialog-content">
+                            <input type="text" name="wcAnswer" id="wxAnswer">
+                            <button class="dialog-button" v-on:click="nextStep(steps.choose)"></button>
+                        </div>
+                    </div>
+                </section>
+                <section class="stack-section-container" v-if="step == steps.choose">
+                    <div class="font-codeb font12">請做出您的選擇：</div>
+                    <ul class="section-selections">
+                        <li class="section-selections-item" v-for='(choice, index) in chooseSelections' v-on:click='makeChoice(index)'>
+                            {{choice.title}}
+                        </li>
+                    </ul>
+                </section>
+                <section class="stack-section-container" v-if="step == steps.display">
+                    <div class="font-codeb"></div>
+                </section>
+                <section class="stack-section-container" v-if="step == steps.bonus">
+                    
+                </section>
+            </div>
+            <aside></aside>
+        </main>
+    </div>
 </body>
 
 <footer>
-    <!-- <script src="./static/local/record.js"></script> -->
+    <script src="./static/local/record.js"></script>
     <script src="./static/local/vue.js"></script>
+    <script src="./static/local/index.js"></script>
 </footer>
+
 </html>

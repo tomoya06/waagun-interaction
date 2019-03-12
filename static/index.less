@@ -1,0 +1,183 @@
+html,
+body,
+* {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: 'Pixel';
+    src: url(./font/PixelMplus12-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Pixel Bold';
+    src: url(./font/PixelMplus12-Bold.ttf)
+}
+
+@font-face {
+    font-family: 'Poem';
+    src: url(./font/mingliub.ttc);
+}
+
+@font-face {
+    font-family: 'Code L';
+    src: url(./font/CODE\ LIGHT.OTF);
+}
+
+@font-face {
+    font-family: 'Code B';
+    src: url(./font/CODE\ BOLD.OTF);
+}
+
+.font-pixel {
+    font-family: 'Pixel';
+}
+
+.font-pixelb {
+    font-family: 'Pixel Bold';
+}
+
+.font-poem {
+    font-family: 'Poem';
+}
+
+.font-codel {
+    font-family: 'Code L';
+}
+
+.font-codeb {
+    font-family: 'Code B';
+}
+
+@fontIte: 60;
+.fontLoop(@ite) when (@ite >= 10) {
+    .font@{ite} {
+        font-size: (@ite * 1vh);
+    }
+    .fontLoop(@ite - 2);
+}
+.fontLoop(@fontIte);
+
+@hIte: 100;
+.hLoop(@ite) when (@ite >= 20) {
+    .h@{ite} {
+        height: (@ite * 1vh);
+        line-height: (@ite * 1vh);
+    }
+    .hLoop(@ite - 5);
+}
+.hLoop(@hIte);
+
+body {
+    background: #3367D6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    height: 100vh;
+    width: 133.3vh;
+    background: #000;
+}
+
+@light-size: 4vh;
+aside {
+    width: 16.7vh;
+    height: 100vh;
+    background-image: url(./src/sidebar.gif);
+    background-size: cover;
+    background-position: right center;
+    position: relative;
+    &.aside-right {
+        transform: rotate(180deg);
+    }
+
+    .footer-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+    }
+
+    .lights-container {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+
+        .light-bulb {
+            display: block;
+            margin: 0 (@light-size / 4);
+            width: @light-size;
+            height: @light-size;
+            border-radius: (@light-size / 2);
+            border: 1px solid #fff;
+            background-color: #000;
+
+            &.active {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+main {
+    flex: 1;
+    height: 100vh;
+    background-size: 100% 100%;
+    &.main-standby {
+        background-image: url(./src/0-standby.gif);
+    }
+    &.main-launching {
+        background-image: url(./src/1-recordin.gif);
+    }
+    &.main-working {
+        display: flex;
+        .stack-container {
+            flex: 1;
+            color: #fff;
+            padding: 0 2vh;
+            position: relative;
+
+            &::after, &::before {
+                display: block;
+                content: '';
+                background-color: #fff;
+                position: absolute;
+                height: 0;
+                width: 1px;
+            }
+
+            section {
+                width: 100%;
+                height: 100%;
+
+                &.stack-text-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                }
+
+                
+            }
+        }
+    }
+}
+
+.text-justify {
+    text-align: justify;
+    -webkit-text-align-last: justify;
+    &::after {
+        content: ".";
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        height: 0;
+    }
+}

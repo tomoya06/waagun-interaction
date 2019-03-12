@@ -1,0 +1,285 @@
+html,
+body,
+* {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'Pixel';
+  src: url(font/PixelMplus12-Regular.ttf);
+}
+@font-face {
+  font-family: 'Pixel Bold';
+  src: url(font/PixelMplus12-Bold.ttf);
+}
+@font-face {
+  font-family: 'Poem';
+  src: url(font/mingliub.ttc);
+}
+@font-face {
+  font-family: 'Code L';
+  src: url(font/CODE\ LIGHT.OTF);
+}
+@font-face {
+  font-family: 'Code B';
+  src: url(font/CODE\ BOLD.OTF);
+}
+.font-pixel {
+  font-family: 'Pixel';
+}
+.font-pixelb {
+  font-family: 'Pixel Bold';
+}
+.font-poem {
+  font-family: 'Poem';
+}
+.font-codel {
+  font-family: 'Code L';
+}
+.font-codeb {
+  font-family: 'Code B';
+}
+.font60 {
+  font-size: 60vh;
+}
+.font58 {
+  font-size: 58vh;
+}
+.font56 {
+  font-size: 56vh;
+}
+.font54 {
+  font-size: 54vh;
+}
+.font52 {
+  font-size: 52vh;
+}
+.font50 {
+  font-size: 50vh;
+}
+.font48 {
+  font-size: 48vh;
+}
+.font46 {
+  font-size: 46vh;
+}
+.font44 {
+  font-size: 44vh;
+}
+.font42 {
+  font-size: 42vh;
+}
+.font40 {
+  font-size: 40vh;
+}
+.font38 {
+  font-size: 38vh;
+}
+.font36 {
+  font-size: 36vh;
+}
+.font34 {
+  font-size: 34vh;
+}
+.font32 {
+  font-size: 32vh;
+}
+.font30 {
+  font-size: 30vh;
+}
+.font28 {
+  font-size: 28vh;
+}
+.font26 {
+  font-size: 26vh;
+}
+.font24 {
+  font-size: 24vh;
+}
+.font22 {
+  font-size: 22vh;
+}
+.font20 {
+  font-size: 20vh;
+}
+.font18 {
+  font-size: 18vh;
+}
+.font16 {
+  font-size: 16vh;
+}
+.font14 {
+  font-size: 14vh;
+}
+.font12 {
+  font-size: 12vh;
+}
+.font10 {
+  font-size: 10vh;
+}
+.h100 {
+  height: 100vh;
+  line-height: 100vh;
+}
+.h95 {
+  height: 95vh;
+  line-height: 95vh;
+}
+.h90 {
+  height: 90vh;
+  line-height: 90vh;
+}
+.h85 {
+  height: 85vh;
+  line-height: 85vh;
+}
+.h80 {
+  height: 80vh;
+  line-height: 80vh;
+}
+.h75 {
+  height: 75vh;
+  line-height: 75vh;
+}
+.h70 {
+  height: 70vh;
+  line-height: 70vh;
+}
+.h65 {
+  height: 65vh;
+  line-height: 65vh;
+}
+.h60 {
+  height: 60vh;
+  line-height: 60vh;
+}
+.h55 {
+  height: 55vh;
+  line-height: 55vh;
+}
+.h50 {
+  height: 50vh;
+  line-height: 50vh;
+}
+.h45 {
+  height: 45vh;
+  line-height: 45vh;
+}
+.h40 {
+  height: 40vh;
+  line-height: 40vh;
+}
+.h35 {
+  height: 35vh;
+  line-height: 35vh;
+}
+.h30 {
+  height: 30vh;
+  line-height: 30vh;
+}
+.h25 {
+  height: 25vh;
+  line-height: 25vh;
+}
+.h20 {
+  height: 20vh;
+  line-height: 20vh;
+}
+body {
+  background: #3367D6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#app {
+  height: 100vh;
+  width: 133.3vh;
+  background: #000;
+}
+aside {
+  width: 16.7vh;
+  height: 100vh;
+  background-image: url(src/sidebar.gif);
+  background-size: cover;
+  background-position: right center;
+  position: relative;
+}
+aside.aside-right {
+  transform: rotate(180deg);
+}
+aside .footer-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+aside .lights-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+aside .lights-container .light-bulb {
+  display: block;
+  margin: 0 1vh;
+  width: 4vh;
+  height: 4vh;
+  border-radius: 2vh;
+  border: 1px solid #fff;
+  background-color: #000;
+}
+aside .lights-container .light-bulb.active {
+  background-color: #fff;
+}
+main {
+  flex: 1;
+  height: 100vh;
+  background-size: 100% 100%;
+}
+main.main-standby {
+  background-image: url(src/0-standby.gif);
+}
+main.main-launching {
+  background-image: url(src/1-recordin.gif);
+}
+main.main-working {
+  display: flex;
+}
+main.main-working .stack-container {
+  flex: 1;
+  color: #fff;
+  padding: 0 2vh;
+  position: relative;
+}
+main.main-working .stack-container::after,
+main.main-working .stack-container::before {
+  display: block;
+  content: '';
+  background-color: #fff;
+  position: absolute;
+  height: 0;
+  width: 1px;
+}
+main.main-working .stack-container section {
+  width: 100%;
+  height: 100%;
+}
+main.main-working .stack-container section.stack-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.text-justify {
+  text-align: justify;
+  -webkit-text-align-last: justify;
+}
+.text-justify::after {
+  content: ".";
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  height: 0;
+}

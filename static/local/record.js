@@ -1,22 +1,24 @@
 var rec = Recorder({
     type: 'wav'
-});
-rec.open(function () {
-    rec.start();
-    setTimeout(function () {
-        rec.stop(function (blob, duration) {
-            uploadBlob(blob)
-            console.log(blob.size, blob.type, duration)
-            rec.close();
-        }, function (msg) {
-            console.log("录音失败:" + msg);
-        });
-    }, 3000);
-}, function (msg) {
-    console.log("无法录音:" + msg);
-});
+})
 
-function uploadBlob(blob) {
+const REC_PERIOD = 3
+
+function startRecord() {
+    rec.open(function() {
+        rec.start()
+        setTimeout(() => {
+            rec.stop(function (blob) {
+                _uploadBlob(blob)
+                rec.close()
+            }, function (msg) {
+                _recFailCB(msg)
+            })
+        }, REC_PERIOD * 1000)
+    })
+}
+
+function _uploadBlob(blob) {
     const url = 'http://localhost:3000/vtt'
     var fd = new FormData()
     fd.append('blob', blob)
@@ -25,8 +27,22 @@ function uploadBlob(blob) {
         body: fd,
         method: 'POST'
     }).then((res) => {
-        console.log(res)
+        _checkKeyword(res, _recSuccCB, _recFailCB)
     }).catch((err) => {
-        console.log(err)
+        _recFailCB(err)
     })
+}
+
+function _checkKeyword(str, successCB, failCB) {
+    str.length == 5 ? successCB(): failCB()
+    // TODO: implicit pinyin match
+}
+
+function _recSuccCB() {
+    app.voiceSucc()
+}
+
+function _recFailCB(msg) {
+    console.error(msg)
+    app.voiceFail()
 }
