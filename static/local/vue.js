@@ -12,8 +12,10 @@ const steps = {
     where: 1,
     choose: 2,
     display: 3,
+    loadingBonus: 41,
     bonus: 4,
     goodluck: 5,
+    goodluckLoading: 51,
 }
 
 const audio = document.getElementById('appAudio')
@@ -25,11 +27,12 @@ Vue.component('text-flow', {
         texts: Array,
         maxCounter: Number,
         textClass: String,
-        delay: Number
+        delay: Number,
+        loop: Boolean
     },
-    data: function() {
+    data: function () {
         return {
-            counter: -1,
+            counter: 0,
             intervalNum: -1,
             maxCounterLimit: 0
         }
@@ -38,20 +41,23 @@ Vue.component('text-flow', {
         counterAdder: function() {
             this.counter++
             console.log(this.counter)
-            if (this.counter >= this.maxCounterLimit) {
+            if (this.loop) {
+                this.counter = this.counter % (this.maxCounterLimit + 1)
+            } else if (this.counter > this.maxCounterLimit) {
                 clearInterval(this.intervalNum)
                 this.$emit('finish')
             }
         }
     },
-    created: function() {
+    created: function () {
         if (!this.maxCounter) this.maxCounterLimit = this.texts.length
         else this.maxCounterLimit = this.maxCounter
         this.intervalNum = setInterval(this.counterAdder, this.delay)
+        console.log(this, this.intervalNum)
     },
     template: `
         <ul>
-            <li v-for="(text, index) in texts" v-bind:class="textClass" v-if="counter >= index">{{text}}</li>
+            <li v-for="(text, index) in texts" v-bind:class="textClass" v-if="counter >= index + 1">{{text}}</li>
         </ul>
     `
 })
@@ -60,37 +66,35 @@ Vue.component('text-flow', {
 const app = new Vue({
     el: '#app',
     data: {
-        status: state.standby,
+        status: state.working,
         lights: [false, true],
         // Main app
-        sectionStorage: {
-            where: '',
-            selection: -1,
-            bonus: -1
-        },
-        step: steps.none,
+        whereAns: '',
+        selectionAns: -1,
+        bonusAns: -1,
+        step: steps.loadingBonus,
         // Where can i choose to go page
         whereDialogOn: false,
         whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
         // choose page
         chooseSelections: [{
             content: ['太空', '', '《2001太空漫游》'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/Space.wav'
         }, {
             content: ['梦境', '', '《2001太空漫游》'],
             voiceUrl: './static/src/audio/Dream.wav'
         }, {
             content: ['时间迷宫', '', '博尔赫斯'],
-            voiceUrl: './static/src/audio/TimePuzzle.mp3',
+            voiceUrl: './static/src/audio/TimePuzzle.wav',
         }, {
             content: ['庆祝', '', '《为我庆祝》', '里尔克'],
             voiceUrl: './static/src/audio/Celebration.wav'
         }, {
             content: ['迷失', '', '后垮掉派诗歌'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/PostPoem.wav'
         }, {
             content: ['过去', '', '顾城'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/Kindergarden.m4a'
         }, {
             content: ['野外', '', '《昆虫记》', '法布尔'],
             voiceUrl: './static/src/audio/Insect.wav'
@@ -99,7 +103,7 @@ const app = new Vue({
             voiceUrl: './static/src/audio/Store.wav'
         }, {
             content: ['局外人', '', '《局外人》', '加缪'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/Outsider.wav'
         }],
         // display page
         displayBtnOn: false,
@@ -118,48 +122,42 @@ const app = new Vue({
         goodluckTexts: ['GOOD', 'LUCK', 'ME']
     },
     methods: {
-        updateStatusTo: function(newStatus) {
+        updateStatusTo: function (newStatus) {
             this.status = newStatus
         },
-        voiceFail: function() {
+        voiceFail: function () {
             this.status = state.launchFail
         },
-        voiceSucc: function() {
+        voiceSucc: function () {
             this.status = state.working
             this.step = steps.where
         },
-        updateLights: function(l1, l2) {
-            this.lights = [l1==true, l2==true]
+        updateLights: function (l1, l2) {
+            this.lights = [l1 == true, l2 == true]
         },
-        clearSectionStorage: function() {
-            this.wcindex = 0
-            this.sectionStorage.where = ''
-            this.sectionStorage.selection = ''
-            this.sectionStorage.bonus = ''
-        },
-        makeChoice: function(chooseIndex) {
-            this.sectionStorage.selection = chooseIndex
+        makeChoice: function (chooseIndex) {
+            this.selectionAns = chooseIndex
             this.step = steps.display
         },
-        nextStep: function(stepVal) {
+        nextStep: function (stepVal) {
             this.step = stepVal
         },
-        playAudio: function(url) {
+        playAudio: function (url) {
             while (!audio.paused) {
                 audio.pause()
             }
             audioSource.src = url
             audio.load()
-            audio.addEventListener('canplaythrough', function() {
+            audio.addEventListener('canplaythrough', function () {
                 audio.play()
             })
         },
-        replay: function() {
+        replay: function () {
             audio.pause()
             audio.currentTime = 0
             audio.play()
         },
-        pauseAudio: function() {
+        pauseAudio: function () {
             if (audio.paused) {
                 audio.play()
             } else {
@@ -168,7 +166,7 @@ const app = new Vue({
         }
     },
     watch: {
-        status: function(newStatus, oldStatus) {
+        status: function (newStatus, oldStatus) {
             switch (newStatus) {
                 case state.launching:
                     console.log('recording..')
@@ -179,21 +177,35 @@ const app = new Vue({
                     break
                 case state.working:
                     console.log('Working...')
-                    this.sectionStorage.where = ''
-                    this.sectionStorage.choose = -1
-                    this.sectionStorage.bonus = Math.floor(Math.random() * this.bonus.length)
+                    this.whereAns = ''
+                    this.selectionAns= -1
+                    this.bonusAns = 0
                     this.nextStep(steps.where)
             }
         },
-        step: function(newStep, oldStep) {
+        step: function (newStep, oldStep) {
             if (oldStep == steps.display) {
                 this.pauseAudio()
             }
-            
+
             switch (newStep) {
                 case steps.where: break;
                 case steps.choose: break;
-                case steps.display: this.playAudio(this.chooseSelections[this.sectionStorage.selection].voiceUrl); break;
+                case steps.display: 
+                    this.playAudio(this.chooseSelections[this.selectionAns].voiceUrl); 
+                    break
+                case steps.loadingBonus:
+                    setTimeout(() => {
+                        this.bonusAns = Math.floor(Math.random() * this.bonus.length)
+                        this.nextStep(steps.bonus)
+                    }, 1000);
+                    break
+                case steps.goodluckLoading:
+                    setTimeout(() => {
+                        this.nextStep(steps.goodluck)
+                    }, 500);
+                    break
+                    
             }
         }
     },

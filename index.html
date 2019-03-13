@@ -8,6 +8,7 @@
     <title>DEMO</title>
     <script src="./static/recorder.wav.min.js"></script>
     <script src="./static/vue.min.js"></script>
+    <link rel="stylesheet" href="./static/animation.css">
     <link rel="stylesheet" href="./static/index.css">
     <link rel="stylesheet" href="./static/common.css">
 </head>
@@ -32,7 +33,7 @@
                 </div>
             </aside>
             <div id="stack" class="stack-container">
-                <section class="stack-text-container" v-if="step == steps.where">
+                <section class="stack-section-container stack-text-container" v-if="step == steps.where">
                     <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5"
                         text-class="text-justify font-codeb font16 h25" v-on:finish="whereDialogOn = true" v-bind:delay="500">
                     </text-flow>
@@ -42,7 +43,7 @@
                             <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
                         </div>
                         <div class="dialog-content">
-                            <input type="text" name="wcAnswer" id="wxAnswer" v-model="sectionStorage.where" autofocus>
+                            <input type="text" name="wcAnswer" id="wxAnswer" v-model="where" autofocus>
                             <button class="dialog-button" v-on:click="nextStep(steps.choose)">確認</button>
                         </div>
                     </div>
@@ -57,23 +58,24 @@
                     </ul>
                 </section>
                 <section class="stack-section-container section-audiobook-container" v-if="step == steps.display">
-                    <text-flow v-bind:texts="chooseSelections[sectionStorage.selection].content"
+                    <text-flow v-bind:texts="chooseSelections[selectionAns].content"
                         text-class="font6 font-poem" v-bind:delay="1500" v-on:finish="displayBtnOn = true"></text-flow>
                     <div class="button-group" v-if="displayBtnOn">
                         <div class="button-large button-replay" v-on:click="replay()"></div>
-                        <div class="button-large button-next1" v-on:click="nextStep(steps.bonus)"></div>
+                        <div class="button-large button-next1" v-on:click="nextStep(steps.loadingBonus)"></div>
                     </div>
                 </section>
-                <section class="stack-section-container" v-if="step == steps.bonus">
-                    <text-flow v-bind:texts="bonus[sectionStorage.bonus]" text-class="font6 font-poem"
-                        v-bind:delay="1000" v-on:success="bonusBtnOn = true"></text-flow>
+                <section class="stack-section-container" v-if="step == steps.bonus || step == steps.loadingBonus">
+                    <div class="font-pixel font6 flex-v-center" v-if="step==steps.loadingBonus">Loading Bonus...</div>
+                    <text-flow v-bind:texts="bonus[bonusAns]" text-class="font6 font-poem"
+                        v-bind:delay="1000" v-on:finish="bonusBtnOn = true" v-if="step == steps.bonus"></text-flow>
                     <div class="button-group" v-if="bonusBtnOn">
-                        <div class="button-large button-next2" v-on:click="nextStep(steps.goodluck)"></div>
+                        <div class="button-large button-next2" v-on:click="nextStep(steps.goodluckLoading)"></div>
                     </div>
                 </section>
-                <section class="stack-section-container" v-if="step == steps.goodluck">
-                    <text-flow v-bind:texts="goodluckTexts" v-bind:delay="1000"
-                        text-class="text-justify font-codeb font16 h25"></text-flow>
+                <section class="stack-section-container" v-if="step == steps.goodluckLoading || step == steps.goodluck">
+                    <text-flow v-bind:texts="goodluckTexts" v-bind:delay="500" loop v-bind:maxCounter="4"
+                        text-class="text-justify font-codeb font16 h25" v-if="step == steps.goodluck"></text-flow>
                     <div class="button-group">
                         <div class="button-large button-quit" v-on:click="updateStatusTo(state.standby)"></div>
                     </div>
