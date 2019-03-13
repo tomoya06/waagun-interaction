@@ -4,18 +4,23 @@ var rec = Recorder({
 
 const REC_PERIOD = 3
 
+rec.open(function () {
+    console.log("已打开");
+}, function (e, isUserNotAllow) {
+    console.log((isUserNotAllow ? "UserNotAllow，" : "") + "打开失败：" + e);
+})
+
 function startRecord() {
-    rec.open(function() {
+    if (rec) {
         rec.start()
-        setTimeout(() => {
+        setTimeout(function() {
             rec.stop(function (blob) {
                 _uploadBlob(blob)
-                rec.close()
             }, function (msg) {
                 _recFailCB(msg)
             })
         }, REC_PERIOD * 1000)
-    })
+    }
 }
 
 function _uploadBlob(blob) {
@@ -28,11 +33,11 @@ function _uploadBlob(blob) {
         body: fd,
         method: 'POST'
     }).then((res) => res.json())
-    .then((json) => {
-        _checkKeyword(json.data, _recSuccCB, _recFailCB)
-    }).catch((err) => {
-        _recFailCB(err)
-    })
+        .then((json) => {
+            _checkKeyword(json.data, _recSuccCB, _recFailCB)
+        }).catch((err) => {
+            _recFailCB(err)
+        })
 }
 
 function _checkKeyword(str, successCB, failCB) {

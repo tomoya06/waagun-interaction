@@ -1,8 +1,9 @@
 .button-next {
   position: fixed;
-  right: 25vh;
+  left: 50%;
   bottom: 6vh;
-  background-image: url(src/NEXTBUTTON.png);
+  transform: translateX(-50%);
+  background-image: url(src/next1.png);
   background-size: cover;
   background-position: center center;
   width: 20vh;

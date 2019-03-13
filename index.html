@@ -53,15 +53,13 @@
                     <ul class="section-selections">
                         <li class="section-selections-item font-pixel font4" v-for='(choice, index) in chooseSelections'
                             v-on:click='makeChoice(index)'>
-                            {{choice.title}}
+                            {{choice.content[0]}}
                         </li>
                     </ul>
                 </section>
-                <section class="stack-section-container section-audiobook-container" v-if="step == steps.display"
-                    v-on:click="pauseAudio()">
-                    <!-- <div class="font-pixel">{{chooseSelections[sectionStorage.selection].title}}</div> -->
+                <section class="stack-section-container section-audiobook-container" v-if="step == steps.display">
                     <text-flow v-bind:texts="chooseSelections[sectionStorage.selection].content"
-                        text-class="font6 font-poem" v-bind:delay="1000"></text-flow>
+                        text-class="font6 font-poem" v-bind:delay="1500"></text-flow>
                     <div class="button-next" v-on:click="nextStep(steps.bonus)"></div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.bonus">
@@ -80,6 +78,7 @@
 </body>
 
 <footer>
+    <script src="./static/local/text.js"></script>
     <script src="./static/local/record.js"></script>
     <script src="./static/local/vue.js"></script>
     <script src="./static/local/index.js"></script>

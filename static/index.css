@@ -270,7 +270,7 @@ main.main-working .stack-container section.stack-section-container .section-sele
 }
 main.main-working .stack-container section.stack-section-container .section-selections .section-selections-item {
   font-style: italic;
-  margin: 6vh 0;
+  margin: 2vh 0;
 }
 main.main-working .stack-container section.stack-section-container .section-selections .section-selections-item:hover {
   cursor: pointer;

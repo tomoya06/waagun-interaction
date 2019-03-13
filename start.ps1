@@ -1,0 +1,1 @@
+& 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' --app="http://localhost:3000" --kiosk --kiosk-printing --disable-print-preview

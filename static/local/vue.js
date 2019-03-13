@@ -70,20 +70,28 @@ const app = new Vue({
         whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
         // choose page
         chooseSelections: [{
-            title: '利己',
-            content: ['11111111111111', '22222222222222222', '3333333333333333'],
+            content: ['太空', '', '《2001太空漫游》'],
             voiceUrl: './static/src/audio/TimePuzzle.mp3',
         }, {
-            title: '白日夢',
-            content: '',
+            content: ['梦境', '', '《2001太空漫游》'],
             voiceUrl: ''
         }, {
-            title: '人間噩旅',
-            content: '',
+            content: ['时间迷宫', '', '博尔赫斯'],
             voiceUrl: ''
         }, {
-            title: '莫比烏斯之帶',
-            content: '',
+            content: ['庆祝', '', '《为我庆祝》', '里尔克'],
+            voiceUrl: ''
+        }, {
+            content: ['迷失', '后垮掉派诗歌'],
+            voiceUrl: ''
+        }, {
+            content: ['过去', '顾城'],
+            voiceUrl: ''
+        }, {
+            content: ['野外', '《昆虫记》', '法布尔'],
+            voiceUrl: ''
+        }, {
+            content: ['明天', '《解忧杂货铺》', '东野圭吾'],
             voiceUrl: ''
         }],
         // bonus page
@@ -135,6 +143,11 @@ const app = new Vue({
             audio.addEventListener('canplaythrough', function() {
                 audio.play()
             })
+        },
+        replay: function() {
+            audio.pause()
+            audio.currentTime = 0
+            audio.play()
         },
         pauseAudio: function() {
             if (audio.paused) {
