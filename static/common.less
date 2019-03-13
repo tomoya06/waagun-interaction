@@ -82,10 +82,10 @@ aside {
     .footer-container {
         position: absolute;
         bottom: 20px;
-        margin: 0 (@light-size / 4);
-        left: 0;
-        right: 0;
-        height: (2 * @light-size);
+        right: 50%;
+        transform: translateX(50%);
+        width: (3.5 * @light-size);
+        height: (3.5 * @light-size);
         background-image: url(./src/corner.gif);
         background-size: contain;
         background-repeat: no-repeat;
@@ -118,8 +118,8 @@ aside {
 }
 
 
-@dialogButtonSize: 16px;
-@dialogFontSize: 24px;
+@dialogButtonSize: 20px;
+@dialogFontSize: 36px;
 
 .dialog {
     position: fixed;
@@ -127,7 +127,7 @@ aside {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40vh;
+    min-width: 46vh;
     font-family: 'Pixel';
     font-size: @dialogFontSize;
     border: 1px solid #fff;
@@ -169,4 +169,8 @@ aside {
     height: 100%;
     flex-direction: column;
     justify-content: center;
+}
+
+.flex-h-center {
+    align-items: center;
 }

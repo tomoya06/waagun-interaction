@@ -69,10 +69,10 @@ aside.aside-wave {
 aside .footer-container {
   position: absolute;
   bottom: 20px;
-  margin: 0 1vh;
-  left: 0;
-  right: 0;
-  height: 8vh;
+  right: 50%;
+  transform: translateX(50%);
+  width: 14vh;
+  height: 14vh;
   background-image: url(src/corner.gif);
   background-size: contain;
   background-repeat: no-repeat;
@@ -104,12 +104,12 @@ aside .lights-container .light-bulb.active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40vh;
+  min-width: 46vh;
   font-family: 'Pixel';
-  font-size: 24px;
+  font-size: 36px;
   border: 1px solid #fff;
   background: #000;
-  padding: 0 24px;
+  padding: 0 36px;
   transform-origin: center center;
   animation-name: zzoom;
   animation-duration: 1s;
@@ -120,7 +120,7 @@ aside .lights-container .light-bulb.active {
 .dialog .dialog-content {
   display: flex;
   justify-content: space-between;
-  margin: 24px 0;
+  margin: 36px 0;
 }
 .dialog .dialog-title *,
 .dialog .dialog-content * {
@@ -129,8 +129,8 @@ aside .lights-container .light-bulb.active {
 .dialog .dialog-title input[type='text'],
 .dialog .dialog-content input[type='text'] {
   font-family: 'Pixel';
-  font-size: 24px;
-  height: 24px;
+  font-size: 36px;
+  height: 36px;
   min-width: 30vh;
 }
 .dialog .dialog-title button,
@@ -138,11 +138,14 @@ aside .lights-container .light-bulb.active {
   background: #000;
   color: #fff;
   border: 1px solid #fff;
-  padding: 0 6px;
+  padding: 0 9px;
 }
 .flex-v-center {
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: center;
+}
+.flex-h-center {
+  align-items: center;
 }

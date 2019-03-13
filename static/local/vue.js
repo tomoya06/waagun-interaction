@@ -9,6 +9,7 @@ const state = {
 
 const steps = {
     none: 0,
+    start: 10,
     where: 1,
     choose: 2,
     display: 3,
@@ -32,11 +33,12 @@ Vue.component('text-flow', {
         maxCounter: Number,
         textClass: String,
         delay: Number,
-        loop: Boolean
+        loop: Boolean,
+        wait: Number,
     },
     data: function () {
         return {
-            counter: 0,
+            counter: -1,
             intervalNum: -1,
             maxCounterLimit: 0
         }
@@ -54,6 +56,7 @@ Vue.component('text-flow', {
         }
     },
     created: function () {
+        if (typeof this.wait == 'number') this.counter = 0 - this.wait
         if (!this.maxCounter) this.maxCounterLimit = this.texts.length
         else this.maxCounterLimit = this.maxCounter
         this.intervalNum = setInterval(this.counterAdder, this.delay)
@@ -72,6 +75,8 @@ const app = new Vue({
     data: {
         status: state.standby,
         lights: [false, true],
+        lightsOn: false,
+        footerOn: false,
         // Main app
         whereAns: '',
         selectionAns: -1,
@@ -234,6 +239,8 @@ const app = new Vue({
                     break
                 case state.working:
                     console.log('Working...')
+                    this.lightsOn = false
+                    this.footerOn = false
                     this.whereAns = ''
                     this.selectionAns= -1
                     this.bonusAns = 0
@@ -242,13 +249,24 @@ const app = new Vue({
                     this.displayBtnOn = false
                     this.bonusBtnOn = false
                     this.audioEnded = false
-                    this.nextStep(steps.where)
+                    this.nextStep(steps.start)
             }
         },
         step: function (newStep, oldStep) {
             this.pauseAudio()
 
             switch (newStep) {
+                case steps.start: 
+                    setTimeout(() => {
+                        app.lightsOn = true
+                        setTimeout(() => {
+                            app.footerOn = true
+                            setTimeout(() => {
+                                app.nextStep(steps.where)
+                            }, 2000);
+                        }, 200);
+                    }, 1000);
+                    break;
                 case steps.where: break;
                 case steps.choose: break;
                 case steps.display: 

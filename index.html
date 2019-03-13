@@ -15,27 +15,48 @@
 
 <body>
     <div id="app">
+        <!-- STANDBY PART -->
         <main v-if="status == state.standby" class="main-standby" v-on:click="updateStatusTo(state.launching)">
         </main>
+
+        <!-- RECORDING PART -->
         <main v-else-if="status == state.launching" class="main-launching">
         </main>
+
+        <!-- ANALYSING PART -->
         <main v-else-if="status == state.analysing" class="main-analysing">
         </main>
+
+        <!-- LAUNCH FAIL PART -->
         <main v-else-if="status == state.launchFail" class="main-launch-fail"
             v-on:click="updateStatusTo(state.launching)">
         </main>
-        <main v-else-if="status == state.working" class="main-working" v-bind:class="{'main-audio': step==steps.display}">
+
+        <!-- MAIN APP PART -->
+        <main v-else-if="status == state.working" class="main-working"
+            v-bind:class="{'main-audio': step==steps.display}">
+            <!-- LEFT SIDE BAR BEGIN -->
             <aside class="aside-right"
                 v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
-                <div class="lights-container">
+                <div class="lights-container fade-animate" v-if="lightsOn">
                     <div class="light-bulb" v-bind:class="{active: lights[0]}"></div>
                     <div class="light-bulb" v-bind:class="{active: lights[1]}"></div>
                 </div>
             </aside>
+            <!-- LEFT SIDE BAR END -->
+
+            <!-- MAIN PAGE BEGIN -->
             <div id="stack" class="stack-container">
+                <!-- STARTING PAGE -->
+                <section class="stack-start-container" v-if="step == steps.start">
+                    <div class="loading app-loading"></div>
+                </section>
+
+                <!-- WHERE PAGE -->
                 <section class="stack-section-container stack-text-container" v-if="step == steps.where">
-                    <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5"
-                        text-class="text-justify font-codeb font16 h25" v-on:finish="whereDialogOn = true" v-bind:delay="500">
+                    <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5" v-bind:wait="3"
+                        text-class="text-justify font-codeb font16 h25" v-on:finish="whereDialogOn = true"
+                        v-bind:delay="500">
                     </text-flow>
                     <div class="dialog" v-if="whereDialogOn">
                         <div class="dialog-title">
@@ -48,6 +69,8 @@
                         </form>
                     </div>
                 </section>
+
+                <!-- CHOOSE PAGE -->
                 <section class="stack-section-container" v-if="step == steps.choose">
                     <div class="font-pixel font4">選擇以下<br>閣下所想之選項</div>
                     <ul class="section-selections">
@@ -57,17 +80,23 @@
                         </li>
                     </ul>
                 </section>
+
+                <!-- DISPLAY PAGE -->
                 <section class="stack-section-container section-audiobook-container" v-if="step == steps.display">
-                    <text-flow v-bind:texts="chooseSelections[selectionAns].content"
-                        text-class="font6 font-poem" v-bind:delay="1500" v-on:finish="displayBtnOn = true"></text-flow>
+                    <text-flow v-bind:texts="chooseSelections[selectionAns].content" text-class="font6 font-poem"
+                        v-bind:delay="1500" v-on:finish="displayBtnOn = true" v-bind:maxCounter="chooseSelections[selectionAns].content.length + 2"></text-flow>
                     <div class="button-group" v-if="displayBtnOn && audio.readyState > 1">
                         <div class="button-large button-replay" v-on:click="replay()" v-if="audioEnded"></div>
                         <div class="button-large button-next1" v-on:click="nextStep(steps.loadingBonus)"></div>
                     </div>
                 </section>
+
+                <!-- LOADING BONUS PAGE -->
                 <section class="stack-text-container" v-if="step == steps.loadingBonus">
-                    <div class="font-pixel font6 flex-v-center" v-if="step==steps.loadingBonus">Loading Bonus...</div>
+                    <div class="loading bonus-loading"></div>
                 </section>
+
+                <!-- BONUS DISPLAY PAGE -->
                 <section class="stack-section-container" v-if="step == steps.bonus">
                     <text-flow v-bind:texts="bonus[bonusAns].split('\n')" text-class="font6 font-poem"
                         v-bind:delay="1000" v-on:finish="bonusBtnOn = true"></text-flow>
@@ -75,6 +104,8 @@
                         <div class="button-large button-next2" v-on:click="nextStep(steps.goodluckLoading)"></div>
                     </div>
                 </section>
+
+                <!-- GOOD LUCK PAGE -->
                 <section class="stack-section-container" v-if="step == steps.goodluckLoading || step == steps.goodluck">
                     <text-flow v-bind:texts="goodluckTexts" v-bind:delay="400" loop v-bind:maxCounter="4"
                         text-class="text-justify font-codeb font16 h25" v-if="step == steps.goodluck"></text-flow>
@@ -83,9 +114,13 @@
                     </div>
                 </section>
             </div>
+            <!-- MAIN PAGE END -->
+
+            <!-- RIGHT SIDE BAR BEGIN -->
             <aside v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
-                <div class="footer-container"></div>
+                <div class="footer-container fade-animate" v-if="footerOn"></div>
             </aside>
+            <!-- RIGHT SIDE BAR END -->
         </main>
         <audio style="display: none" id="appAudio">
             <source src="">

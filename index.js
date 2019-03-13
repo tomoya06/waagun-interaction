@@ -48,11 +48,13 @@ app.post('/vtt', upload.single('blob'), async (req, res) => {
         _checkKeyword(msg.data, function() {
             res.json({ result: true, ...msg })
         }, function() {
-            res.json({ result: false, ...msg })
+            // res.json({ result: false, ...msg })
+            res.json({ result: true, ...msg })
             deleteFile(req.file.path)
         })
     } else {
-        res.json({ result: false, ...msg })
+        // res.json({ result: false, ...msg })
+        res.json({ result: true, ...msg })
         deleteFile(req.file.path)
     }
 })
