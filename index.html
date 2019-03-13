@@ -23,10 +23,9 @@
         <main v-else-if="status == state.launchFail" class="main-launch-fail"
             v-on:click="updateStatusTo(state.launching)">
         </main>
-        <main v-else-if="status == state.working" class="main-working"
-            v-bind:class="{'main-audio': step == steps.display}">
+        <main v-else-if="status == state.working" class="main-working">
             <aside class="aside-right"
-                v-bind:class="{'aside-test': step == steps.where, 'aside-choose': step == steps.choose}">
+                v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose, 'aside-wave': step==steps.display}">
                 <div class="lights-container">
                     <div class="light-bulb" v-bind:class="{active: lights[0]}"></div>
                     <div class="light-bulb" v-bind:class="{active: lights[1]}"></div>
@@ -35,9 +34,9 @@
             <div id="stack" class="stack-container">
                 <section class="stack-text-container" v-if="step == steps.where">
                     <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5"
-                        text-class="text-justify font-codeb font16 h25" v-on:finish="wcindex = 5" v-bind:delay="500">
+                        text-class="text-justify font-codeb font16 h25" v-on:finish="whereDialogOn = true" v-bind:delay="500">
                     </text-flow>
-                    <div class="dialog" v-if="wcindex >= 5">
+                    <div class="dialog" v-if="whereDialogOn">
                         <div class="dialog-title">
                             <span>請輸入閣下的答案：</span>
                             <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
@@ -59,15 +58,28 @@
                 </section>
                 <section class="stack-section-container section-audiobook-container" v-if="step == steps.display">
                     <text-flow v-bind:texts="chooseSelections[sectionStorage.selection].content"
-                        text-class="font6 font-poem" v-bind:delay="1500"></text-flow>
-                    <div class="button-next" v-on:click="nextStep(steps.bonus)"></div>
+                        text-class="font6 font-poem" v-bind:delay="1500" v-on:finish="displayBtnOn = true"></text-flow>
+                    <div class="button-group" v-if="displayBtnOn">
+                        <div class="button-large button-replay" v-on:click="replay()"></div>
+                        <div class="button-large button-next1" v-on:click="nextStep(steps.bonus)"></div>
+                    </div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.bonus">
                     <text-flow v-bind:texts="bonus[sectionStorage.bonus]" text-class="font6 font-poem"
-                        v-bind:delay="1000"></text-flow>
+                        v-bind:delay="1000" v-on:success="bonusBtnOn = true"></text-flow>
+                    <div class="button-group" v-if="bonusBtnOn">
+                        <div class="button-large button-next2" v-on:click="nextStep(steps.goodluck)"></div>
+                    </div>
+                </section>
+                <section class="stack-section-container" v-if="step == steps.goodluck">
+                    <text-flow v-bind:texts="goodluckTexts" v-bind:delay="1000"
+                        text-class="text-justify font-codeb font16 h25"></text-flow>
+                    <div class="button-group">
+                        <div class="button-large button-quit" v-on:click="updateStatusTo(state.standby)"></div>
+                    </div>
                 </section>
             </div>
-            <aside v-bind:class="{'aside-test': step == steps.where, 'aside-choose': step == steps.choose}">
+            <aside v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose, 'aside-wave': step==steps.display}">
                 <div class="footer-container"></div>
             </aside>
         </main>

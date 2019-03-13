@@ -34,7 +34,13 @@ function _uploadBlob(blob) {
         method: 'POST'
     }).then((res) => res.json())
         .then((json) => {
-            _checkKeyword(json.data, _recSuccCB, _recFailCB)
+            if (json.code == 10105) {
+                const ipAddr = json.desc.replace(/\D+(\d+.\d+.\d+.\d+)/, '$1')
+                window.alert(`Please Contact Your Developer To Add This IP Address Into Whitelist: ${ipAddr}`)
+                app.updateStatusTo(state.standby)
+            } else {
+                _checkKeyword(json.data, _recSuccCB, _recFailCB)
+            }
         }).catch((err) => {
             _recFailCB(err)
         })

@@ -12,7 +12,8 @@ const steps = {
     where: 1,
     choose: 2,
     display: 3,
-    bonus: 4
+    bonus: 4,
+    goodluck: 5,
 }
 
 const audio = document.getElementById('appAudio')
@@ -30,19 +31,22 @@ Vue.component('text-flow', {
         return {
             counter: -1,
             intervalNum: -1,
+            maxCounterLimit: 0
         }
     },
     methods: {
         counterAdder: function() {
             this.counter++
-            if (this.counter >= this.maxCounter) {
+            console.log(this.counter)
+            if (this.counter >= this.maxCounterLimit) {
                 clearInterval(this.intervalNum)
                 this.$emit('finish')
             }
         }
     },
     created: function() {
-        if (!this.maxCounter) this.maxCounter = this.texts.length
+        if (!this.maxCounter) this.maxCounterLimit = this.texts.length
+        else this.maxCounterLimit = this.maxCounter
         this.intervalNum = setInterval(this.counterAdder, this.delay)
     },
     template: `
@@ -66,39 +70,52 @@ const app = new Vue({
         },
         step: steps.none,
         // Where can i choose to go page
-        wcindex: 0,
+        whereDialogOn: false,
         whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
         // choose page
         chooseSelections: [{
             content: ['太空', '', '《2001太空漫游》'],
-            voiceUrl: './static/src/audio/TimePuzzle.mp3',
+            voiceUrl: ''
         }, {
             content: ['梦境', '', '《2001太空漫游》'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/Dream.wav'
         }, {
             content: ['时间迷宫', '', '博尔赫斯'],
-            voiceUrl: ''
+            voiceUrl: './static/src/audio/TimePuzzle.mp3',
         }, {
             content: ['庆祝', '', '《为我庆祝》', '里尔克'],
+            voiceUrl: './static/src/audio/Celebration.wav'
+        }, {
+            content: ['迷失', '', '后垮掉派诗歌'],
             voiceUrl: ''
         }, {
-            content: ['迷失', '后垮掉派诗歌'],
+            content: ['过去', '', '顾城'],
             voiceUrl: ''
         }, {
-            content: ['过去', '顾城'],
-            voiceUrl: ''
+            content: ['野外', '', '《昆虫记》', '法布尔'],
+            voiceUrl: './static/src/audio/Insect.wav'
         }, {
-            content: ['野外', '《昆虫记》', '法布尔'],
-            voiceUrl: ''
+            content: ['明天', '', '《解忧杂货铺》', '东野圭吾'],
+            voiceUrl: './static/src/audio/Store.wav'
         }, {
-            content: ['明天', '《解忧杂货铺》', '东野圭吾'],
+            content: ['局外人', '', '《局外人》', '加缪'],
             voiceUrl: ''
         }],
+        // display page
+        displayBtnOn: false,
         // bonus page
+        bonusBtnOn: false,
         bonus: [
-            [], 
-            []
+            `孤单一条狗
+            独行在夏日炎炎的
+            人行道上
+            仿佛拥有
+            万神之力
+            这是为什么？
+            （《狗》，布考斯基）`.split('\n')
         ],
+        // good luck me page
+        goodluckTexts: ['GOOD', 'LUCK', 'ME']
     },
     methods: {
         updateStatusTo: function(newStatus) {
@@ -115,17 +132,10 @@ const app = new Vue({
             this.lights = [l1==true, l2==true]
         },
         clearSectionStorage: function() {
+            this.wcindex = 0
             this.sectionStorage.where = ''
             this.sectionStorage.selection = ''
             this.sectionStorage.bonus = ''
-        },
-        wcCounting: function() {
-            this.wcInterval = setInterval(function() {
-                app.wcindex++
-                if (app.wcindex == 10) {
-                    clearInterval(app.wcInterval)
-                }
-            }, 1000);
         },
         makeChoice: function(chooseIndex) {
             this.sectionStorage.selection = chooseIndex
@@ -181,7 +191,7 @@ const app = new Vue({
             }
             
             switch (newStep) {
-                case steps.where: app.wcCounting(); break;
+                case steps.where: break;
                 case steps.choose: break;
                 case steps.display: this.playAudio(this.chooseSelections[this.sectionStorage.selection].voiceUrl); break;
             }

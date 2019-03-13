@@ -1,14 +1,41 @@
-.button-next {
+.button-group {
   position: fixed;
-  left: 50%;
   bottom: 6vh;
+  left: 50%;
   transform: translateX(-50%);
-  background-image: url(src/next1.png);
-  background-size: cover;
-  background-position: center center;
+  display: flex;
+  justify-content: center;
+}
+.button-group .button-large {
   width: 20vh;
   height: 11.25vh;
   cursor: pointer;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.button-group .button-large.button-next1 {
+  background-image: url(src/next1.png);
+}
+.button-group .button-large.button-next2 {
+  background-image: url(src/next2.png);
+}
+.button-group .button-large.button-next3 {
+  background-image: url(src/next3.png);
+}
+.button-group .button-large.button-next4 {
+  background-image: url(src/next4.png);
+}
+.button-group .button-large.button-replay {
+  background: #fff;
+}
+.button-group .button-large.button-print {
+  background-size: 60%;
+  background-image: url(src/printb.png);
+}
+.button-group .button-large.button-quit {
+  background-size: 60%;
+  background-image: url(src/quitb.png);
 }
 .text-justify {
   text-align: justify;
@@ -36,6 +63,9 @@ aside.aside-test {
 }
 aside.aside-choose {
   background-image: url(src/side-choose.gif);
+}
+aside.aside-wave {
+  background-image: url(src/side-wave.gif);
 }
 aside .footer-container {
   position: absolute;
