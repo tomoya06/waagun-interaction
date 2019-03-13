@@ -4,6 +4,8 @@ var rec = Recorder({
 
 const REC_PERIOD = 3
 
+window.alert('Please Allow This Page to Get Access of Your Microphone. \nAnd Then It\'s Showtime.')
+
 rec.open(function () {
     console.log("已打开");
 }, function (e, isUserNotAllow) {

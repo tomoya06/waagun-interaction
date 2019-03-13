@@ -241,9 +241,6 @@ main.main-working .stack-container {
   flex: 1;
   color: #fff;
   padding: 0 2vh;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
-  background: #000;
   position: relative;
 }
 main.main-working .stack-container::after,
@@ -256,7 +253,9 @@ main.main-working .stack-container::before {
   width: 1px;
 }
 main.main-working .stack-container section {
+  background: #000;
   position: absolute;
+  border: 1px solid #fff;
   left: 0;
   right: 0;
   bottom: 0;

@@ -45,7 +45,10 @@ app.post('/vtt', upload.single('blob'), async (req, res) => {
     const [status, msg] = await voice2text(req.file.path)
     console.log(msg)
     if (status) {
-        res.json(msg)
+        // res.json(msg)
+        res.json({
+            data: '有界无边'
+        })
     } else {
         res.status(403).send(null)
     }

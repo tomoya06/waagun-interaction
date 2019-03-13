@@ -13,6 +13,7 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  margin: 0 5vh;
 }
 .button-group .button-large.button-next1 {
   background-image: url(src/next1.png);
@@ -27,14 +28,12 @@
   background-image: url(src/next4.png);
 }
 .button-group .button-large.button-replay {
-  background: #fff;
+  background-image: url(src/quitb.png);
 }
 .button-group .button-large.button-print {
-  background-size: 60%;
   background-image: url(src/printb.png);
 }
 .button-group .button-large.button-quit {
-  background-size: 60%;
   background-image: url(src/quitb.png);
 }
 .text-justify {

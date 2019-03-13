@@ -114,9 +114,6 @@ main {
             color: #fff;
             padding: 0 2vh;
             position: relative;
-            border-left: 1px solid #fff;
-            border-right: 1px solid #fff;
-            background: #000;
             position: relative;
             &::after,
             &::before {
@@ -128,7 +125,11 @@ main {
                 width: 1px;
             }
             section {
+                background: #000;
                 position: absolute;
+                border: 1px solid #fff;
+                // border-left: 1px solid #fff;
+                // border-right: 1px solid #fff;
                 left: 0;
                 right: 0;
                 bottom: 0;

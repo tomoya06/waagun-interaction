@@ -21,6 +21,10 @@ const steps = {
 const audio = document.getElementById('appAudio')
 const audioSource = audio.getElementsByTagName('source')[0]
 
+audio.addEventListener('ended', function() {
+    app.audioEnded = true
+})
+
 
 Vue.component('text-flow', {
     props: {
@@ -66,13 +70,13 @@ Vue.component('text-flow', {
 const app = new Vue({
     el: '#app',
     data: {
-        status: state.working,
+        status: state.standby,
         lights: [false, true],
         // Main app
         whereAns: '',
         selectionAns: -1,
         bonusAns: -1,
-        step: steps.loadingBonus,
+        step: steps.none,
         // Where can i choose to go page
         whereDialogOn: false,
         whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
@@ -107,6 +111,7 @@ const app = new Vue({
         }],
         // display page
         displayBtnOn: false,
+        audioEnded: false,
         // bonus page
         bonusBtnOn: false,
         bonus: [
@@ -116,7 +121,8 @@ const app = new Vue({
             仿佛拥有
             万神之力
             这是为什么？
-            （《狗》，布考斯基）`.split('\n')
+            （《狗》，布考斯基）`,
+            `1爱任何事物的方法，就是要意识到你可能会失去它。`
         ],
         // good luck me page
         goodluckTexts: ['GOOD', 'LUCK', 'ME']
@@ -158,11 +164,8 @@ const app = new Vue({
             audio.play()
         },
         pauseAudio: function () {
-            if (audio.paused) {
-                audio.play()
-            } else {
-                audio.pause()
-            }
+            audio.pause()
+            audioSource.src = ''
         }
     },
     watch: {
@@ -180,13 +183,16 @@ const app = new Vue({
                     this.whereAns = ''
                     this.selectionAns= -1
                     this.bonusAns = 0
+                    this.whereDialogOn = false
+                    this.whereAns = ''
+                    this.displayBtnOn = false
+                    this.bonusBtnOn = false
+                    this.audioEnded = false
                     this.nextStep(steps.where)
             }
         },
         step: function (newStep, oldStep) {
-            if (oldStep == steps.display) {
-                this.pauseAudio()
-            }
+            this.pauseAudio()
 
             switch (newStep) {
                 case steps.where: break;
@@ -205,7 +211,6 @@ const app = new Vue({
                         this.nextStep(steps.goodluck)
                     }, 500);
                     break
-                    
             }
         }
     },
