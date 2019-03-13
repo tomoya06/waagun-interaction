@@ -45,15 +45,34 @@ app.post('/vtt', upload.single('blob'), async (req, res) => {
     const [status, msg] = await voice2text(req.file.path)
     console.log(msg)
     if (status) {
-        // res.json(msg)
-        res.json({
-            data: '有界无边'
+        _checkKeyword(msg.data, function() {
+            res.json({ result: true, ...msg })
+        }, function() {
+            res.json({ result: false, ...msg })
+            deleteFile(req.file.path)
         })
     } else {
-        res.status(403).send(null)
+        res.json({ result: false, ...msg })
+        deleteFile(req.file.path)
     }
 })
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
+
+
+function _checkKeyword(str, successCB, failCB) {
+    if (!str) {
+        return failCB()
+    }
+    if (str.indexOf('有') > -1 || str.indexOf('无') > -1) {
+        successCB()
+    } else {
+        failCB()
+    }
+}
+
+function deleteFile(path) {
+    fs.unlinkSync(path)
+}

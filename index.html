@@ -42,10 +42,10 @@
                             <span>請輸入閣下的答案：</span>
                             <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
                         </div>
-                        <div class="dialog-content">
+                        <form autocomplete="off" class="dialog-content">
                             <input type="text" name="wcAnswer" id="wxAnswer" v-model="whereAns" autofocus>
                             <button class="dialog-button" v-on:click="nextStep(steps.choose)">確認</button>
-                        </div>
+                        </form>
                     </div>
                 </section>
                 <section class="stack-section-container" v-if="step == steps.choose">

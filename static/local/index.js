@@ -3,7 +3,7 @@
      * 屏幕保护
      */
     var count = 0;
-    var outTime = 10;//分钟
+    var outTime = 1;//分钟
     window.setInterval(go, 1000);
     function go() {
         count++;

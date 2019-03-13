@@ -15,7 +15,7 @@ rec.open(function () {
 function startRecord() {
     if (rec) {
         rec.start()
-        setTimeout(function() {
+        setTimeout(function () {
             rec.stop(function (blob) {
                 _uploadBlob(blob)
             }, function (msg) {
@@ -36,27 +36,18 @@ function _uploadBlob(blob) {
         method: 'POST'
     }).then((res) => res.json())
         .then((json) => {
-            if (json.code == 10105) {
+            if (json.result) {
+                _recSuccCB()
+            } else if (json.code == 10105) {
                 const ipAddr = json.desc.replace(/\D+(\d+.\d+.\d+.\d+)/, '$1')
                 window.alert(`Please Contact Your Developer To Add This IP Address Into Whitelist: ${ipAddr}`)
                 app.updateStatusTo(state.standby)
             } else {
-                _checkKeyword(json.data, _recSuccCB, _recFailCB)
+                throw new Error(json.desc)
             }
         }).catch((err) => {
             _recFailCB(err)
         })
-}
-
-function _checkKeyword(str, successCB, failCB) {
-    if (!str) {
-        return failCB()
-    }
-    if (str.indexOf('有') > -1 || str.indexOf('无') > -1) {
-        successCB()
-    } else {
-        failCB()
-    }
 }
 
 function _startUploadCB() {
