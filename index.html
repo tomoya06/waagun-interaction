@@ -40,7 +40,7 @@
                 v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
                 <div class="lights-container fade-animate" v-if="lightsOn" v-on:click="toggleBonus()">
                     <div class="light-bulb" v-bind:class="{active: lights[0], bonus: bonusStatus}"></div>
-                    <div class="light-bulb" v-bind:class="{active: lights[1]}"></div>
+                    <div class="light-bulb" v-bind:class="{active: lights[1], bonus: bonusStatus}"></div>
                 </div>
             </aside>
             <!-- LEFT SIDE BAR END -->
@@ -127,9 +127,10 @@
 </body>
 
 <footer>
-    <script src="./static/local/bonus.js"></script>
+    <script src="./static/local/text.js"></script>
     <script src="./static/local/record.js"></script>
     <script src="./static/local/vue.js"></script>
+    <script src="./static/src/coner0.js"></script>
     <script src="./static/local/index.js"></script>
 </footer>
 

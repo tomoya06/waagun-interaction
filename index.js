@@ -13,7 +13,7 @@ const app = express()
 const port = 3000
 
 // change to true if you wanna skip voice recognition
-const testResult = true
+const testResult = false
 
 const storage = multer.diskStorage({
     destination: 'voice',

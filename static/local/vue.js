@@ -175,7 +175,7 @@ const app = new Vue({
         },
         toggleBonus: function() {
             this.bonusCnter++
-            if (this.bonusCnter >= 2) {
+            if (this.bonusCnter >= 3) {
                 this.bonusStatus = !this.bonusStatus
                 this.bonusCnter = 0
             }
@@ -210,6 +210,7 @@ const app = new Vue({
         step: function (newStep, oldStep) {
             this.nextClass = `button-next${Math.floor(Math.random() * 4)}`
             this.cornerClass = `corner${Math.floor(Math.random() * 4)}`
+            this.bonusCnter = 0
             this.pauseAudio()
 
             switch (newStep) {
