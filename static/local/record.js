@@ -2,7 +2,10 @@ var rec = Recorder({
     type: 'wav'
 })
 
-const REC_PERIOD = 3
+const LONG_PERIOD = 6
+const SHORT_PERIOD = 5
+
+let REC_PERIOD = LONG_PERIOD
 
 window.alert('Please Allow This Page to Get Access of Your Microphone. \nAnd Then It\'s Showtime.')
 
