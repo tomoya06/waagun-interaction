@@ -58,7 +58,8 @@ aside {
     height: 100vh;
     position: relative;
     background-size: cover;
-    background-position: right center;
+    background-position: right top;
+    background-repeat: no-repeat;
     
     &.aside-right {
         transform: rotate(180deg);
@@ -74,6 +75,16 @@ aside {
 
     &.aside-wave {
         background-image: url(./src/side-wave.gif);
+    }
+
+    &.aside-end {
+        background-image: url(./src/side-offline.gif);
+        background-size: 265%;
+    }
+
+    &.aside-end-right {
+        background-image: url(./src/side-HEAVELOPIND.gif);
+        background-size: 265%;
     }
 
     .footer-container {

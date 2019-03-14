@@ -7,7 +7,7 @@ const SHORT_PERIOD = 5
 
 let REC_PERIOD = LONG_PERIOD
 
-window.alert('IT IS SHOWTIME!!!')
+window.alert('點擊確認開始程序 ↘↘↘')
 
 rec.open(function () {
     console.log("已打开");
@@ -43,7 +43,7 @@ function _uploadBlob(blob) {
                 _recSuccCB()
             } else if (json.code == 10105) {
                 const ipAddr = json.desc.replace(/\D+(\d+.\d+.\d+.\d+)/, '$1')
-                window.alert(`Please Contact Your Developer To Add This IP Address Into Whitelist: ${ipAddr}`)
+                window.alert(`請通知項目開發者將此IP地址加入語音識別白名單: \n${ipAddr}\n之後稍等片刻即可。`)
                 app.updateStatusTo(state.standby)
             } else {
                 throw new Error(json.desc)

@@ -33,6 +33,7 @@ Vue.component('text-flow', {
     props: {
         texts: Array,
         maxCounter: Number,
+        containerClass: String,
         textClass: String,
         delay: Number,
         loop: Boolean,
@@ -71,7 +72,7 @@ Vue.component('text-flow', {
         clearInterval(this.intervalNum)
     },
     template: `
-        <ul>
+        <ul v-bind:class="containerClass">
             <li v-for="(text, index) in texts" v-bind:class="textClass" v-if="counter >= index + 1">{{text}}</li>
         </ul>
     `
@@ -114,7 +115,7 @@ const app = new Vue({
             content: ['迷失', '迷失', '', '后垮掉派诗歌'],
             voiceUrl: './static/src/audio/PostPoem.wav'
         }, {
-            content: ['過去', '过去', '', '顾城'],
+            content: ['過去', '过去', '', '《过去》', '顾城'],
             voiceUrl: './static/src/audio/Kindergarden.m4a'
         }, {
             content: ['野外', '野外', '', '《昆虫记》', '法布尔'],

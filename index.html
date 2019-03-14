@@ -37,7 +37,7 @@
             v-bind:class="{'main-audio': step==steps.display}">
             <!-- LEFT SIDE BAR BEGIN -->
             <aside class="aside-right"
-                v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
+                v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose, 'aside-end': step==steps.goodluck}">
                 <div class="lights-container fade-animate" v-if="lightsOn" v-on:click="toggleBonus()">
                     <div class="light-bulb" v-bind:class="{active: lights[0], bonus: bonusStatus}"></div>
                     <div class="light-bulb" v-bind:class="{active: lights[1], bonus: bonusStatus}"></div>
@@ -54,8 +54,8 @@
 
                 <!-- ME PAGE -->
                 <section class="stack-section-container stack-text-container" v-if="step == steps.me">
-                    <text-flow v-bind:texts="['HELLO', 'ME']" v-bind:delay="400" v-bind:wait="2"
-                        text-class="text-justify font-codeb font16 h25" loop></text-flow>
+                    <text-flow v-bind:texts="['HELLO,', 'ME']" v-bind:delay="1500" v-bind:wait="0" container-class="flex-v-center flex-h-center"
+                        text-class="font-codeb font16 h25"></text-flow>
                 </section>
 
                 <section v-if="step == steps.meafter"></section>
@@ -63,12 +63,12 @@
                 <!-- WHERE PAGE -->
                 <section class="stack-section-container stack-text-container" v-if="step == steps.where">
                     <text-flow v-bind:texts="whereTexts" v-bind:max-counter="5" v-bind:wait="3"
-                        text-class="text-justify font-codeb font16 h25" v-on:finish="whereDialogOn = true"
+                        text-class="text-justify font-codeb font14 h25" v-on:finish="whereDialogOn = true"
                         v-bind:delay="500">
                     </text-flow>
                     <div class="dialog" v-if="whereDialogOn">
                         <div class="dialog-title">
-                            <span>請輸入閣下的答案：</span>
+                            <span>閣下對該問題的答案：</span>
                             <button class="dialog-close" v-on:click=nextStep(steps.choose)>×</button>
                         </div>
                         <form autocomplete="off" class="dialog-content"
@@ -125,7 +125,7 @@
             <!-- MAIN PAGE END -->
 
             <!-- RIGHT SIDE BAR BEGIN -->
-            <aside v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
+            <aside v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose, 'aside-end-right': step==steps.goodluck}">
                 <div class="footer-container fade-animate" v-bind:class="[cornerClass]" v-if="footerOn"></div>
             </aside>
             <!-- RIGHT SIDE BAR END -->
