@@ -12,6 +12,7 @@ xfClient.IATAppKey = '403a89a11868cdc6644e25e7c520e3b0'
 const app = express()
 const port = 3000
 
+// change to true if you wanna skip voice recognition
 const testResult = false
 
 const storage = multer.diskStorage({
