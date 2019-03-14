@@ -58,6 +58,16 @@ app.post('/vtt', upload.single('blob'), async (req, res) => {
     }
 })
 
+app.get('/where', (req, res) => {
+    const whereAns = req.query.where
+    console.log(`New Where Input: ${whereAns}`)
+    if (!whereAns || whereAns.length == 0) return res.send('OK but PASS')
+    fs.writeFileSync(path.resolve(__dirname, 'voice', 'answer.txt'), `${whereAns}\n`, {
+        flag: 'a'
+    })
+    return res.send('OK')
+})
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })

@@ -10,6 +10,8 @@ const state = {
 const steps = {
     none: 0,
     start: 10,
+    me: 11,
+    meafter: 12,
     where: 1,
     choose: 2,
     display: 3,
@@ -94,7 +96,7 @@ const app = new Vue({
         step: steps.none,
         // Where can i choose to go page
         whereDialogOn: false,
-        whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO'],
+        whereTexts: ['W H E R E', 'CAN I', 'C H O O S E', 'TO GO?'],
         // choose page
         chooseSelections: [{
             content: ['慶祝', '庆祝', '', '《为我庆祝》', '里尔克'],
@@ -179,6 +181,10 @@ const app = new Vue({
                 this.bonusStatus = !this.bonusStatus
                 this.bonusCnter = 0
             }
+        },
+        submitWhere: function() {
+            uploadWhere(this.whereAns)
+            this.nextStep(steps.choose)
         }
     },
     watch: {
@@ -220,10 +226,20 @@ const app = new Vue({
                         setTimeout(() => {
                             app.footerOn = true
                             setTimeout(() => {
-                                app.nextStep(steps.where)
+                                app.nextStep(steps.me)
                             }, 2000);
                         }, 200);
                     }, 1000);
+                    break;
+                case steps.me: 
+                    setTimeout(() => {
+                        this.nextStep(steps.meafter)
+                    }, 5500);
+                    break;
+                case steps.meafter: 
+                    setTimeout(() => {
+                        this.nextStep(steps.where)
+                    }, 1);
                     break;
                 case steps.where: break;
                 case steps.choose: break;

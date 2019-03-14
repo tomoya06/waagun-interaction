@@ -7,7 +7,7 @@ const SHORT_PERIOD = 5
 
 let REC_PERIOD = LONG_PERIOD
 
-window.alert('Please Allow This Page to Get Access of Your Microphone. \nAnd Then It\'s Showtime.')
+window.alert('IT IS SHOWTIME!!!')
 
 rec.open(function () {
     console.log("已打开");
@@ -64,4 +64,8 @@ function _recSuccCB() {
 function _recFailCB(msg) {
     console.error(msg)
     app.voiceFail()
+}
+
+function uploadWhere(where) {
+    fetch(`http://localhost:3000/where?where=${where}`)
 }
