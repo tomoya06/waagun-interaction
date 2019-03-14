@@ -107,6 +107,9 @@ aside .lights-container .light-bulb {
 aside .lights-container .light-bulb.active {
   background-color: #fff;
 }
+aside .lights-container .light-bulb.active.bonus {
+  background-color: #F1D070;
+}
 .dialog {
   position: fixed;
   z-index: 999;
