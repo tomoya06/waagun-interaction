@@ -1,11 +1,12 @@
 @largeBtnSize: 20vh;
 .button-group {
-    position: fixed;
+    position: absolute;
     bottom: 6vh;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
 
     .button-large {
         width: @largeBtnSize;
@@ -25,20 +26,16 @@
         &.button-next3 {
             background-image: url(./src/next3.png);
         }
-        &.button-next4 {
+        &.button-next0 {
             background-image: url(./src/next4.png);
         }
 
         &.button-replay {
-            background-image: url(./src/quitb.png);
-        }
-
-        &.button-print {
-            background-image: url(./src/printb.png)
+            background-image: url(./src/replay.png)
         }
         
         &.button-quit {
-            background-image: url(./src/quitb.png)
+            background-image: url(./src/quitb.png);
         }
     }
 }
@@ -86,10 +83,22 @@ aside {
         transform: translateX(50%);
         width: (3.5 * @light-size);
         height: (3.5 * @light-size);
-        background-image: url(./src/corner.gif);
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+
+        &.corner1 {
+            background-image: url(./src/corner1.gif);
+        }
+        &.corner2 {
+            background-image: url(./src/corner2.gif)
+        }
+        &.corner3 {
+            background-image: url(./src/corner3.gif)
+        }
+        &.corner0 {
+            background-image: url(./src/corner4.gif)
+        }
         
     }
 
@@ -148,18 +157,28 @@ aside {
             display: block;
         }
 
+        .dialog-close {
+            font-family: 'Pixel';
+            font-size: 4vh;
+            cursor: pointer;
+            border: none;
+        }
+
         input[type='text'] {
             font-family: 'Pixel';
             font-size: @dialogFontSize;
             height: @dialogFontSize;
-            min-width: 30vh;
+            width: 30vh;
         }
 
         button {
+            cursor: pointer;
             background: #000;
             color: #fff;
             border: 1px solid #fff;
             padding: 0 (@dialogFontSize / 4);
+            font-size: 3vh;
+            font-family: 'Pixel';
         }
     }
 }

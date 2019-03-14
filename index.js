@@ -12,6 +12,8 @@ xfClient.IATAppKey = '403a89a11868cdc6644e25e7c520e3b0'
 const app = express()
 const port = 3000
 
+const testResult = false
+
 const storage = multer.diskStorage({
     destination: 'voice',
     filename: (req, file, cb) => {
@@ -27,10 +29,8 @@ async function voice2text(filename) {
     const voiceFile = fs.readFileSync(filename)
     try {
         const result = await xfClient.IAT(voiceFile, IATEngineType.SMS16K_Mandarin, IATAueType.RAW)
-        // console.log(result)
         return [true, result]
     } catch (error) {
-        // console.log(error)
         return [false, error]
     }
 }
@@ -48,13 +48,11 @@ app.post('/vtt', upload.single('blob'), async (req, res) => {
         _checkKeyword(msg.data, function() {
             res.json({ result: true, ...msg })
         }, function() {
-            // res.json({ result: false, ...msg })
-            res.json({ result: true, ...msg })
+            res.json({ result: testResult, ...msg })
             deleteFile(req.file.path)
         })
     } else {
-        // res.json({ result: false, ...msg })
-        res.json({ result: true, ...msg })
+        res.json({ result: testResult, ...msg })
         deleteFile(req.file.path)
     }
 })

@@ -15,7 +15,7 @@ body,
 }
 @font-face {
   font-family: 'Poem';
-  src: url(font/SOURCEHANSERIFTW-SEMIBOLD.OTF);
+  src: url(font/SourceHanSerifTC-ExtraLight.otf);
 }
 @font-face {
   font-family: 'Code L';
@@ -270,7 +270,7 @@ main.main-working .stack-container section.stack-start-container {
 }
 main.main-working .stack-container section.stack-text-container {
   display: block;
-  padding: 0 !important;
+  padding: 0 4vh !important;
 }
 main.main-working .stack-container section.stack-section-container {
   padding: 6vh 4vh;

@@ -61,7 +61,7 @@
                     <div class="dialog" v-if="whereDialogOn">
                         <div class="dialog-title">
                             <span>請輸入閣下的答案：</span>
-                            <button class="dialog-close" v-on:click=nextStep(steps.choose)>X</button>
+                            <button class="dialog-close" v-on:click=nextStep(steps.choose)>×</button>
                         </div>
                         <form autocomplete="off" class="dialog-content">
                             <input type="text" name="wcAnswer" id="wxAnswer" v-model="whereAns" autofocus>
@@ -83,11 +83,11 @@
 
                 <!-- DISPLAY PAGE -->
                 <section class="stack-section-container section-audiobook-container" v-if="step == steps.display">
-                    <text-flow v-bind:texts="chooseSelections[selectionAns].content" text-class="font6 font-poem"
-                        v-bind:delay="1500" v-on:finish="displayBtnOn = true" v-bind:maxCounter="chooseSelections[selectionAns].content.length + 2"></text-flow>
+                    <text-flow v-bind:texts="chooseSelections[selectionAns].content.slice(1)" text-class="font6 font-poem"
+                        v-bind:delay="1500" v-on:finish="displayBtnOn = true" v-bind:more="3"></text-flow>
                     <div class="button-group" v-if="displayBtnOn && audio.readyState > 1">
-                        <div class="button-large button-replay" v-on:click="replay()" v-if="audioEnded"></div>
-                        <div class="button-large button-next1" v-on:click="nextStep(steps.loadingBonus)"></div>
+                        <div class="button-large" v-bind:class="[nextClass]" v-on:click="nextStep(steps.loadingBonus)"></div>
+                        <div class="button-large button-replay" v-on:click="replay()" v-show="audioEnded"></div>
                     </div>
                 </section>
 
@@ -99,10 +99,8 @@
                 <!-- BONUS DISPLAY PAGE -->
                 <section class="stack-section-container" v-if="step == steps.bonus">
                     <text-flow v-bind:texts="bonus[bonusAns].split('\n')" text-class="font6 font-poem"
-                        v-bind:delay="1000" v-on:finish="bonusBtnOn = true"></text-flow>
-                    <div class="button-group" v-if="bonusBtnOn">
-                        <div class="button-large button-next2" v-on:click="nextStep(steps.goodluckLoading)"></div>
-                    </div>
+                        v-bind:delay="1500" v-on:finish="nextStep(steps.goodluckLoading)"
+                        v-bind:more="3"></text-flow>
                 </section>
 
                 <!-- GOOD LUCK PAGE -->
@@ -118,7 +116,7 @@
 
             <!-- RIGHT SIDE BAR BEGIN -->
             <aside v-bind:class="{'aside-test': step==steps.where, 'aside-choose': step==steps.choose}">
-                <div class="footer-container fade-animate" v-if="footerOn"></div>
+                <div class="footer-container fade-animate" v-bind:class="[cornerClass]" v-if="footerOn"></div>
             </aside>
             <!-- RIGHT SIDE BAR END -->
         </main>
