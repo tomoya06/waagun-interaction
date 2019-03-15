@@ -30,7 +30,7 @@ function startRecord() {
 
 function _uploadBlob(blob) {
     _startUploadCB()
-    const url = 'http://localhost:3000/vtt'
+    const url = '/vtt'
     var fd = new FormData()
     fd.append('blob', blob)
 
@@ -67,5 +67,5 @@ function _recFailCB(msg) {
 }
 
 function uploadWhere(where) {
-    fetch(`http://localhost:3000/where?where=${where}`)
+    fetch(`/where?where=${where}`)
 }
